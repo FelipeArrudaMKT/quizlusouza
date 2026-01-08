@@ -1,32 +1,12 @@
 
+import { QUESTIONS } from './constants';
+
 // Configurações e Dados
 const CHECKOUT_CURSO = "https://pay.kirvano.com/63a28a47-b22b-43a7-afdf-9a9696d76c76";
 const CHECKOUT_RECEITAS = "https://pay.kirvano.com/2b3f1b1f-f4d4-43b3-9863-8a97bc45b0ba";
 
-const QUESTIONS = [
-    { id: 1, text: "Trabalho atual paga o que você merece?", img: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?w=400" },
-    { id: 2, text: "Maior medo ao cozinhar algo novo?", img: "https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400" },
-    { id: 3, text: "Já disse 'no' por falta de dinheiro?", img: "https://images.unsplash.com/photo-1484662020986-75935d2ebc66?w=400" },
-    { id: 4, text: "Trabalhar em casa cuidando da família?", img: "https://images.unsplash.com/photo-1556911220-e15224bbafb0?w=400" }, // Atualizada
-    { id: 5, text: "Cozinhar é seu caminho para liberdade?", img: "https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=400" },
-    { id: 6, text: "Qual salgado é mais difícil?", img: "https://images.unsplash.com/photo-1623653387945-2fd25214f8fc?w=400" },
-    { id: 7, text: "O que faria com R$ 1.000 de lucro?", img: "https://images.unsplash.com/photo-1553729459-efe14ef6055d?w=400" },
-    { id: 8, text: "Vergonha de oferecer produtos?", img: "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=400" },
-    { id: 9, text: "Sabia que massa barata é o segredo?", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400" }, // Atualizada
-    { id: 10, text: "Sua maior motivação hoje?", img: "https://images.unsplash.com/photo-1513151233558-d860c5398176?w=400" },
-    { id: 11, text: "Quer vender pelo WhatsApp?", img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400" },
-    { id: 12, text: "Apoio de comunidade ajuda?", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=400" },
-    { id: 13, text: "Prefere vídeo ou livro?", img: "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400" }, // Atualizada
-    { id: 14, text: "Investiria para ganhar R$ 2 mil?", img: "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400" },
-    { id: 15, text: "Promete começar esta semana?", img: "https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?w=400" },
-    // Mini Quiz
-    { id: 16, text: "Quer saber o tempero viciante?", img: "https://images.unsplash.com/photo-1532336414038-cf19250c5757?w=400" },
-    { id: 17, text: "Receitas que buffets escondem?", img: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400" }, // Atualizada
-    { id: 18, text: "Recheios Gourmet valem o dobro?", img: "https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=400" },
-    { id: 19, text: "Preparada para muitos pedidos?", img: "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=400" } // Atualizada
-];
-
 let currentStep = -1; // -1 é a Intro
+let score = 0;
 const app = document.getElementById('app');
 
 function render() {
@@ -69,20 +49,14 @@ function renderQuestion(index: number) {
                 ${isMini ? 'Bônus: Receitas Secretas' : `Pergunta ${index + 1} de 15`}
             </p>
             <h2 class="text-2xl font-black text-gray-900 leading-tight mb-6">${q.text}</h2>
-            <img src="${q.img}" class="w-full h-48 object-cover rounded-2xl mb-8 shadow-sm" onerror="this.src='https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400'">
+            <img src="${q.imageHint}" class="w-full h-48 object-cover rounded-2xl mb-8 shadow-sm" onerror="this.src='https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=400'">
             <div class="space-y-4">
-                <button onclick="next()" class="w-full text-left p-5 rounded-2xl border-2 border-gray-100 hover:border-orange-500 hover:bg-orange-50 font-bold text-gray-700 transition-all flex items-center gap-4 group">
-                    <div class="w-8 h-8 rounded-full border-2 border-gray-200 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white">A</div>
-                    <span>Sim, com certeza!</span>
-                </button>
-                <button onclick="next()" class="w-full text-left p-5 rounded-2xl border-2 border-gray-100 hover:border-orange-500 hover:bg-orange-50 font-bold text-gray-700 transition-all flex items-center gap-4 group">
-                    <div class="w-8 h-8 rounded-full border-2 border-gray-200 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white">B</div>
-                    <span>Às vezes sinto isso</span>
-                </button>
-                <button onclick="next()" class="w-full text-left p-5 rounded-2xl border-2 border-gray-100 hover:border-orange-500 hover:bg-orange-50 font-bold text-gray-700 transition-all flex items-center gap-4 group">
-                    <div class="w-8 h-8 rounded-full border-2 border-gray-200 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white">C</div>
-                    <span>Quero mudar agora</span>
-                </button>
+                ${q.options.map(opt => `
+                    <button onclick="next(${opt.weight || 0})" class="w-full text-left p-5 rounded-2xl border-2 border-gray-100 hover:border-orange-500 hover:bg-orange-50 font-bold text-gray-700 transition-all flex items-center gap-4 group">
+                        <div class="w-8 h-8 rounded-full border-2 border-gray-200 flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white uppercase">${opt.id}</div>
+                        <span>${opt.text}</span>
+                    </button>
+                `).join('')}
             </div>
         </div>
     `;
@@ -185,8 +159,8 @@ function renderUpsellOffer() {
 }
 
 // Lógica Auxiliar
-// Fix for Error on line 183: Property 'next' does not exist on type 'Window & typeof globalThis'
-(window as any).next = () => {
+(window as any).next = (weight: number = 0) => {
+    score += weight;
     currentStep++;
     render();
     window.scrollTo(0,0);
@@ -201,7 +175,6 @@ function setupCalc() {
     if (!range) return;
 
     range.oninput = function() {
-        // Fix for Error on line 198: Property 'value' does not exist on type 'GlobalEventHandlers'
         const units = parseInt((this as HTMLInputElement).value);
         if (val) val.innerText = `${units} un/dia`;
         const dProfit = units * 0.9;
